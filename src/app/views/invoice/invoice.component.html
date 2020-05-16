@@ -1,0 +1,435 @@
+<div class="wrapper">
+  <div class="container">
+    <!--    Header -->
+    <div class="header mb-5 d-flex align-items-center justify-content-between">
+      <h1>invoice</h1>
+
+      <!--      Import -->
+
+      <label for="import" class="btn btn-dark mx-2 mb-0">Import</label>
+      <input type="file" id="import" accept="application/JSON" (change)="fileSelected($event)">
+    </div>
+
+    <form #invoiceForm="ngForm">
+
+      <!--    Company info -->
+      <section class="company-info mb-4">
+        <div class="d-flex align-items-start justify-content-between flex-wrap">
+          <!--        Left Section -->
+          <div>
+            <div class="">
+              <!--            Company Name -->
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="com-name">Company Name</label>
+                    <input type="text" [(ngModel)]="invoice.companyName" id="com-name" name="company_name"
+                           placeholder="Enter company name" #compName
+                           class="form-control" required>
+                    <small class="text-danger"
+                           *ngIf="invoiceForm.controls.company_name?.touched && !compName.validity.valid">required input
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!--            Address -->
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" [(ngModel)]="invoice.companyAddress" name="company_address"
+                           placeholder="Address" class="form-control" required #compAdd>
+                    <small class="text-danger"
+                           *ngIf="invoiceForm.controls.company_address?.touched && !compAdd.validity.valid">required
+                      input
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!--            City zip Code-->
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="code">City, State Zip Code</label>
+                    <input type="text" id="code" placeholder="Enter zip code" class="form-control"
+                           onkeypress="validate(event)" name="zip_code" [(ngModel)]="invoice.zipCode" required #zipCode>
+                    <small class="text-danger"
+                           *ngIf="invoiceForm.controls.zip_code?.touched && !zipCode.validity.valid">required input
+                    </small>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!--        Right Section-->
+          <div>
+            <!--          Date -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="date">Date</label>
+                  <input type="date" name="date" id="date" class="form-inline form-control" [(ngModel)]="invoice.date"
+                         required #date>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.date?.touched && !date.validity.valid">required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--          RECEIPT No-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="rece-no">RECEIPT NO.</label>
+                  <input type="tel" id="rece-no" placeholder="Enter Receipt No." name="receipt_no"
+                         [(ngModel)]="invoice.receiptNo"
+                         class="form-inline form-control" required #recNo>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.receipt_no?.touched && !recNo.validity.valid">required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!--    Bill info -->
+      <section class="bill-info mb-5">
+        <div class="d-flex justify-content-between align-items-start flex-wrap">
+          <!--        left section-->
+          <div class="mb-2">
+            <div class="header mb-3">
+              <h5 class="header-text">bill to :</h5>
+            </div>
+            <!--            Contact Name-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="contact-name">Contact Name</label>
+                  <input type="text" [(ngModel)]="invoice.billTo.contactName" id="contact-name"
+                         placeholder="Enter contact name" class="form-control" name="bill_contact_name" required
+                         #bContact>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.bill_contact_name?.touched && !bContact.validity.valid">required
+                    input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Company Name-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-comp-name">Client Company Name</label>
+                  <input type="text" id="client-comp-name" [(ngModel)]="invoice.billTo.clientCompanyName"
+                         placeholder="Enter client comp. name" class="form-control" name="bill_client_comp_name"
+                         required #bill_client_comp_name>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.bill_client_comp_name?.touched && !bill_client_comp_name.validity.valid">
+                    required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Address -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-address">Address</label>
+                  <input type="text" id="client-address" [(ngModel)]="invoice.billTo.address"
+                         placeholder="Enter Address" class="form-control" name="bill_client_address" required
+                         #bill_client_address>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.bill_client_address?.touched && !bill_client_address.validity.valid">
+                    required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Phone -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-phone">Phone</label>
+                  <input type="tel" onkeypress="validate(event)" [(ngModel)]="invoice.billTo.phone" id="client-phone"
+                         placeholder="Enter phone no."
+                         class="form-control" name="bill_client_phone" required #bill_client_phone>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.bill_client_phone?.touched && !bill_client_phone.validity.valid">
+                    required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Email -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-email">Email</label>
+                  <input type="email" id="client-email" placeholder="Enter email" [(ngModel)]="invoice.billTo.email"
+                         class="form-control" name="bill_email" required #email email>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.bill_email?.touched && invoiceForm.controls.bill_email.errors?.required">
+                    required input
+                  </small>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.bill_email?.touched && invoiceForm.controls.bill_email.errors?.email">
+                    it's not an email format
+                  </small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--        right Section-->
+          <div>
+            <div class="header mb-3">
+              <h5 class="header-text">ship to :</h5>
+            </div>
+            <!--            Name/Dep-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="name-dep">Name/Dep</label>
+                  <input type="text" id="name-dep" placeholder="Enter name/dep" [(ngModel)]="invoice.shipTo.nameDep"
+                         class="form-control" name="ship_name_dep" required #nameDep>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.ship_name_dep?.touched && !nameDep.validity.valid">required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Company Name - ship-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-comp-name-ship">Client Company Name</label>
+                  <input type="text" id="client-comp-name-ship" placeholder="Enter client comp. name"
+                         [(ngModel)]="invoice.shipTo.clientCompanyName"
+                         class="form-control" name="ship_client_comp_name" required #cCompName>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.ship_client_comp_name?.touched && !cCompName.validity.valid">
+                    required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Address ship -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-address-ship">Address</label>
+                  <input type="text" id="client-address-ship" [(ngModel)]="invoice.shipTo.address"
+                         placeholder="Enter Address" class="form-control" name="ship_address" required #ship_address>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.ship_address?.touched && !ship_address.validity.valid">required
+                    input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!--            Client Phone  ship-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client-phone-ship">Phone</label>
+                  <input type="tel" onkeypress="validate(event)" [(ngModel)]="invoice.shipTo.phone"
+                         id="client-phone-ship" placeholder="Enter phone no."
+                         class="form-control" name="ship_phone" required #ship_phone>
+                  <small class="text-danger"
+                         *ngIf="invoiceForm.controls.ship_phone?.touched && !ship_phone.validity.valid">required input
+                  </small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!--      items table -->
+      <section>
+        <table class="table table-striped table-responsive-lg table-bordered">
+          <thead class="thead-dark">
+          <tr class="text-center">
+            <th scope="col">DESCRIPTION</th>
+            <th scope="col">QTY</th>
+            <th scope="col">UNIT PRICE</th>
+            <th scope="col">TOTAL</th>
+            <th scope="col">ACTION</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center" *ngFor="let item of invoice?.items; index as i">
+            <td>{{item?.description}}</td>
+            <td>{{item?.qty}}</td>
+            <td>{{item?.unitPrice | currency}}</td>
+            <td>{{item?.total | currency}}</td>
+            <td>
+              <button class="btn btn-success mr-2 mb-3 mb-sm-0" (click)="fillContainer(i)">Edit</button>
+              <button class="btn btn-danger" (click)="deleteItem(i)">Delete</button>
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td><input type="text" placeholder="item desc." class="form-control form-block item-npt" #desc
+                       [(ngModel)]="itemContainer.description" name="item_desc"></td>
+            <td><input type="text" placeholder="QTY" class="form-control qty-npt" onkeypress="validate(event)"
+                       [(ngModel)]="itemContainer.qty" #qty name="item_qty" (input)="getTotal()"></td>
+            <td><input type="text" placeholder="Unit price" onkeypress="validate(event)" class="form-control unit-npt"
+                       [(ngModel)]="itemContainer.unitPrice" #unit name="item_total" (input)="getTotal()">
+            </td>
+            <td>{{itemContainer?.total || 0 | currency}}</td>
+            <td>
+              <button class="btn btn-primary mb-3" type="button" (click)="addItem()" *ngIf="!update"
+                      [disabled]="desc.value.length === 0 || qty.value.length === 0 || unit.value.length === 0">Add
+              </button>
+
+              <button class="btn btn-danger mr-2 mb-3 mb-sm-0" *ngIf="update" (click)="cancel()">dismiss</button>
+
+              <button class="btn btn-success" type="button" (click)="updateItem()" *ngIf="update"
+                      [disabled]="desc.value.length === 0 || qty.value.length === 0 || unit.value.length === 0">Update
+              </button>
+
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!--      Notes / Remarks -->
+      <section class="footer mb-5">
+        <div class="row">
+
+          <!--          Right Section -->
+          <div class="col-lg-6">
+            <div class="header">
+              <h6 class="header-text">remarks/notes</h6>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control bg-light" [(ngModel)]="invoice.notes" rows="6"
+                        placeholder="Notes & comments go in here..." name="notes"></textarea>
+            </div>
+          </div>
+
+          <!--          Left section -->
+          <div class="col-lg-5 offset-lg-1">
+
+            <div class="">
+              <!--            subtotal -->
+              <div class="d-flex align-items-center justify-content-between">
+                <label class="pr-2 font-weight-bold mb-0">SUBTOTAL</label>
+                <p class="mb-0">{{invoice.subTotal || 0 | currency}}</p>
+              </div>
+
+              <hr/>
+
+              <!--              Discount -->
+              <div class="d-flex align-items-center justify-content-between flex-md-nowrap flex-wrap ">
+                <label class="pr-2 mb-0 font-weight-bold" for="discount">DISCOUNT</label>
+                <input type="text" [(ngModel)]="invoice.discount" onkeypress="validate(event)" id="discount"
+                       class="form-control text-right" name="discount" (input)="calculateBalancePaid()" required
+                       #discount [readOnly]="invoice.items.length === 0" [disabled]="invoice.items.length === 0">
+              </div>
+              <div class="d-flex justify-content-end">
+                <small class="text-muted"
+                       *ngIf="invoice.items.length === 0">add items to enable this input
+                </small>
+                <small class="text-danger"
+                       *ngIf="invoiceForm.controls.discount?.touched && !discount.validity.valid">required input
+                </small>
+              </div>
+
+              <hr/>
+
+              <!--              SUBTOTAL LESS Discount -->
+              <div class="d-flex align-items-center justify-content-between ">
+                <label class="pr-2 mb-0 font-weight-bold mb-0">SUBTOTAL LESS DISCOUNT</label>
+                <p class="mb-0">{{ invoice?.subTotalLessDiscount || 0 | currency }}</p>
+              </div>
+
+              <hr/>
+
+              <!--              Tax rate -->
+              <div class="d-flex align-items-center justify-content-between flex-md-nowrap flex-wrap ">
+                <label class="pr-2 mb-0 font-weight-bold" for="tax-rate">TAX RATE</label>
+                <input type="text" onkeypress="validate(event)" [(ngModel)]="invoice.taxRate" id="tax-rate"
+                       class="form-control text-right" name="tax_rate" (input)="calculateBalancePaid()" #taxRate
+                       required [readOnly]="invoice.items.length === 0" [disabled]="invoice.items.length === 0">
+              </div>
+              <div class="d-flex justify-content-end">
+                <small class="text-muted"
+                       *ngIf="invoice.items.length === 0">add items to enable this input
+                </small>
+                <small class="text-danger"
+                       *ngIf="invoiceForm.controls.tax_rate?.touched && !taxRate.validity.valid">required input
+                </small>
+              </div>
+
+              <hr/>
+
+              <!--              Total Tax -->
+              <div class="d-flex align-items-center justify-content-between ">
+                <label class="pr-2 mb-0 font-weight-bold mb-0">TOTAL TAX</label>
+                <p class="mb-0">{{invoice?.totalTax || 0 | currency}}</p>
+              </div>
+
+
+              <hr/>
+
+              <!--              Shipping and handling-->
+              <div class="d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
+                <label class="pr-2 font-weight-bold">SHIPPING/HANDLING</label>
+                <input type="text" class="form-control text-right" id="shipping" [(ngModel)]="invoice.shipping"
+                       name="shipping" (input)="calculateBalancePaid()" onkeypress="validate(event)" required #shipping
+                       [readOnly]="invoice.items.length === 0" [disabled]="invoice.items.length === 0">
+              </div>
+              <div class="d-flex justify-content-end">
+                <small class="text-muted"
+                       *ngIf="invoice.items.length === 0">add items to enable this input
+                </small>
+                <small class="text-danger"
+                       *ngIf="invoiceForm.controls.shipping?.touched && !shipping.validity.valid">required input
+                </small>
+              </div>
+
+              <hr/>
+
+              <!--              Balance paid -->
+              <div class="d-flex align-items-center justify-content-between ">
+                <label class="pr-2 mb-0 font-weight-bold mb-0">BALANCE PAID</label>
+                <h4 class="mb-0 font-weight-bold">{{ invoice?.balancePaid || 0 | currency }}</h4>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <div class="action mb-3 text-right">
+      <!--      Export -->
+      <button (click)="export()" class="btn btn-info" [disabled]="invoiceForm.invalid || invoice.items.length === 0">
+        Export
+      </button>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+.wrapper {
+
+  input.ng-invalid.ng-touched {
+    border: 1px solid red;
+    &:focus {
+      box-shadow: 0 0 4px red;
+
+    }
+  }
+
+  .header {
+    h1 {
+      color: rgba(black, 0.2);
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 4em;
+    }
+  }
+
+  .bill-info {
+    .header {
+      .header-text {
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+  }
+  table {
+    width: 100%;
+    .item-npt {
+      min-width: 250px;
+    }
+    .qty-npt {
+      min-width: 120px;
+    }
+    .unit-npt {
+      min-width: 120px;
+
+    }
+  }
+
+  .footer {
+    .header {
+      .header-text {
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+
+
+  input[type="file"] {
+    display: none;
+  }
+
+}
